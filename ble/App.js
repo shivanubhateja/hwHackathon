@@ -32,9 +32,38 @@ export default class App extends React.Component {
   }
   async componentDidMount() {
     try{
-      var beaconsApiRes = await getBeaconsToHearTo();
-      console.log(beaconsApiRes)
-      this.setState({ beaconsTohear: beaconsApiRes.beacons });
+      // var beaconsApiRes = await getBeaconsToHearTo();
+      var temp = [
+        {
+        "_id": "5d679ddc5e80ef00171ebc73",
+        "uuid": "karthika",
+        "macAdd": "6E:80:14:64:F0:E9",
+        "latitude": 0,
+        "longitude": 0,
+        "floor": 0,
+        "__v": 0
+        },
+        {
+        "_id": "5d679e5c5e80ef00171ebc74",
+        "uuid": "dhanoop",
+        "macAdd": "74:92:0F:83:82:ED",
+        "latitude": 90,
+        "longitude": 0,
+        "floor": 0,
+        "__v": 0
+        }
+        ,
+        {
+        "_id": "5d679e5c5e80ef00171ebc74",
+        "uuid": "Akhilesh",
+        "macAdd": "44:DC:B7:FF:DC:52",
+        "latitude": 90,
+        "longitude": 90,
+        "floor": 0,
+        "__v": 0
+        }];
+      // console.log(beaconsApiRes)
+      this.setState({ beaconsTohear: temp });
     } catch(e){
       console.log(e)
     }
@@ -57,7 +86,12 @@ export default class App extends React.Component {
         console.log(error)
         return
       } 
-      this.sendMessage;
+      if(this.state.beaconsTohear.map(a => a.macAdd).indexOf(device.id) < 0){
+        return ;
+      }
+      var beacon = this.state.beaconsTohear[this.state.beaconsTohear.findIndex(val => val.macAdd === device.id)];
+      console.log(beacon);
+      this.sendMessage(beacon.macAdd, beacon.latitude, beacon.longitude, device.rssi);
       this.setState((prev) => {
         let found = prev.devices.map(d => d.id).indexOf(device.id);
         if (found >= 0) {
@@ -134,6 +168,7 @@ export default class App extends React.Component {
       // exchange.publish(message, routing_key, properties)
 
       this.sendMessage = (macId, lat, lng, rssi) => {
+        console.log(macId, lat, lng, rssi)
         let message = {
           macId,
           lat,
@@ -147,6 +182,7 @@ export default class App extends React.Component {
           contentType: "text/plain",
           deliveryMode: 1
         }
+        console.log("SENDING MESSAGE", message)
         exchange.publish(message, routing_key, properties)
       }
     });

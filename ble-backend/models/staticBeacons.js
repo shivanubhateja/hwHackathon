@@ -8,6 +8,6 @@ var schema = mongoose.Schema({
     floor: Number
 });
 
-module.exports = {
+module.exports = { 
     beaconModel: mongoose.model("beacons", schema)
 }
