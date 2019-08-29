@@ -24,10 +24,10 @@ var mongoose = require('mongoose');
   });
   localDb.on('disconnected', function () {
     console.log('MongoDB disconnected!');
-    mongoose.connect('mongodb://shivanu31:shivanu31@hackathon-shard-00-00-w8piq.mongodb.net:27017,hackathon-shard-00-01-w8piq.mongodb.net:27017,hackathon-shard-00-02-w8piq.mongodb.net:27017/test?ssl=true&replicaSet=hackathon-shard-0&authSource=admin&retryWrites=true&w=majority', 
+    mongoose.connect('mongodb://localhost:27017/hackathon', 
     { useCreateIndex: true, useNewUrlParser: true,server: { auto_reconnect: true }});
   });
-  mongoose.connect('mongodb://shivanu31:shivanu31@hackathon-shard-00-00-w8piq.mongodb.net:27017,hackathon-shard-00-01-w8piq.mongodb.net:27017,hackathon-shard-00-02-w8piq.mongodb.net:27017/test?ssl=true&replicaSet=hackathon-shard-0&authSource=admin&retryWrites=true&w=majority', 
+  mongoose.connect('mongodb://localhost:27017/hackathon', 
     { useCreateIndex: true, useNewUrlParser: true,server: { auto_reconnect: true }});
 
 module.exports = mongoose;
